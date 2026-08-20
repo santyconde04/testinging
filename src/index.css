@@ -130,7 +130,6 @@ button {
   pointer-events: none;
 }
 
-.brand-block,
 .hero-actions {
   pointer-events: auto;
 }
@@ -162,12 +161,14 @@ button {
   align-items: center;
   gap: 10px;
   padding-top: 18px;
+  position: relative;
+  z-index: 7;
 }
 
 .cta,
 .ghost {
   border: 0;
-  border-radius: 999px;
+  border-radius: 10px;
   padding: 12px 22px;
   font-size: 14px;
   font-weight: 500;
