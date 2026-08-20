@@ -87,7 +87,7 @@ export function Constellation({
       const a = points[from]
       const b = points[to]
       if (!a || !b) return null
-      const lift = (from === 'planner' ? 48 : 28) * (mobile ? 0.55 : 1)
+      const lift = (from === 'planner' ? 36 : 22) * (mobile ? 0.55 : 1)
       const c = controlPoint(a, b, lift)
       return { from, to, a, b, c, d: `M ${a.x} ${a.y} Q ${c.x} ${c.y} ${b.x} ${b.y}` }
     }).filter(Boolean) as {
@@ -111,7 +111,7 @@ export function Constellation({
     <div
       ref={stageRef}
       className={`constellation${playing ? ' is-live' : ''}`}
-      aria-label="Constelación de agentes"
+      aria-label="Grafo de agentes"
     >
       <svg
         className="constellation-svg"
@@ -122,22 +122,10 @@ export function Constellation({
       >
         <defs>
           <linearGradient id="edgeGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#2dd4bf" stopOpacity="0.05" />
-            <stop offset="50%" stopColor="#5eead4" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="#f5b942" stopOpacity="0.08" />
+            <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.08" />
+            <stop offset="50%" stopColor="#67e8f9" stopOpacity="0.45" />
+            <stop offset="100%" stopColor="#f472b6" stopOpacity="0.12" />
           </linearGradient>
-          <radialGradient id="cometCore" cx="35%" cy="50%" r="70%">
-            <stop offset="0%" stopColor="#fff6d8" />
-            <stop offset="40%" stopColor="#f5b942" />
-            <stop offset="100%" stopColor="#c45e12" stopOpacity="0" />
-          </radialGradient>
-          <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="3.5" result="b" />
-            <feMerge>
-              <feMergeNode in="b" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
         </defs>
 
         {paths.map((p) => {
@@ -170,7 +158,7 @@ export function Constellation({
           )
           const a = path?.a ?? p0
           const b = path?.b ?? p1
-          const ctrl = path?.c ?? controlPoint(p0, p1, mobile ? 26 : 46)
+          const ctrl = path?.c ?? controlPoint(p0, p1, mobile ? 20 : 34)
           const reverse = Boolean(path && pr.from === path.to)
           const raw = easeInOut(Math.min(1, Math.max(0, (simTime - pr.born) / pr.duration)))
           const t = reverse ? 1 - raw : raw
@@ -179,14 +167,10 @@ export function Constellation({
           const next = quadPoint(a, ctrl, b, nextT)
           const angle = (Math.atan2(next.y - pos.y, next.x - pos.x) * 180) / Math.PI
           return (
-            <g
-              key={pr.id}
-              transform={`translate(${pos.x} ${pos.y}) rotate(${angle})`}
-              filter="url(#softGlow)"
-            >
-              <ellipse cx="-10" cy="0" rx="16" ry="3.2" fill="url(#cometCore)" opacity="0.9" />
-              <circle cx="0" cy="0" r="3.4" fill="#fff8e4" />
-              <circle cx="0" cy="0" r="7" fill="#f5b942" opacity="0.35" />
+            <g key={pr.id} transform={`translate(${pos.x} ${pos.y}) rotate(${angle})`}>
+              <rect x="-10" y="-1.5" width="14" height="3" rx="1" fill="#f9a8d4" opacity="0.55" />
+              <rect x="-4" y="-4" width="8" height="8" rx="1.5" fill="#f472b6" />
+              <rect x="-2" y="-2" width="4" height="4" rx="0.5" fill="#fff1f8" />
             </g>
           )
         })}
@@ -203,37 +187,28 @@ export function Constellation({
             key={agent.id}
             type="button"
             className={[
-              'planet',
-              `planet-${agent.id}`,
+              'node',
               isSel ? 'is-selected' : '',
               dim ? 'is-dim' : '',
               active ? 'is-active' : '',
               status === 'done' ? 'is-done' : '',
+              agent.id === 'planner' ? 'is-core' : '',
             ].join(' ')}
             style={{
               left: `${pos.x}%`,
               top: `${pos.y}%`,
               width: agent.size,
               height: agent.size,
-              animationDelay: `${i * -0.7}s`,
-              ['--glow' as string]: agent.palette.glow,
-              ['--atm' as string]: agent.palette.atmosphere,
-              ['--core' as string]: agent.palette.core,
-              ['--mid' as string]: agent.palette.mid,
-              ['--rim' as string]: agent.palette.rim,
-              ['--band' as string]: agent.palette.band,
+              animationDelay: `${i * -0.55}s`,
+              ['--node' as string]: agent.color,
             }}
             onClick={() => onSelect(agent.id)}
             aria-pressed={isSel}
             aria-label={`${agent.name}, ${agent.role}`}
           >
-            <span className="planet-halo" />
-            <span className="planet-body">
-              <span className="planet-shine" />
-              <span className="planet-bands" />
-            </span>
-            {agent.id === 'planner' && <span className="planet-ring" />}
-            <span className="planet-label">
+            <span className="node-ring" />
+            <span className="node-core" />
+            <span className="node-label">
               <strong>{agent.short}</strong>
               <em>{agent.role}</em>
             </span>

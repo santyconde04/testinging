@@ -61,7 +61,7 @@ export function AgentPanel({ agentId, status, text, typing, playback, onClose }:
       <pre ref={scroller} className="terminal" tabIndex={0}>
         {empty ? (
           <span className="terminal-idle">
-            esperando tráfico en esta órbita…
+            esperando tráfico en este nodo…
             {'\n'}inicia la simulación o espera un mensaje.
           </span>
         ) : (

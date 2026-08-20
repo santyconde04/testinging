@@ -1,4 +1,4 @@
-import { Starfield } from './components/Starfield'
+import { GridField } from './components/GridField'
 import { Constellation } from './components/Constellation'
 import { AgentPanel } from './components/AgentPanel'
 import { useSimulation } from './hooks/useSimulation'
@@ -7,23 +7,18 @@ import type { Playback } from './types'
 function ctaLabel(playback: Playback) {
   if (playback === 'playing') return 'Pausar'
   if (playback === 'paused') return 'Continuar'
-  if (playback === 'finished') return 'Volver a orbitar'
+  if (playback === 'finished') return 'Volver a ejecutar'
   return 'Iniciar simulación'
 }
 
 export default function App() {
   const sim = useSimulation()
-  const primary =
-    sim.playback === 'playing'
-      ? sim.pause
-      : sim.play
+  const primary = sim.playback === 'playing' ? sim.pause : sim.play
 
   return (
     <div className="scene">
-      <Starfield />
-      <div className="nebula nebula-a" aria-hidden="true" />
-      <div className="nebula nebula-b" aria-hidden="true" />
-      <div className="nebula nebula-c" aria-hidden="true" />
+      <GridField />
+      <div className="scanlines" aria-hidden="true" />
       <div className="vignette" aria-hidden="true" />
 
       <Constellation
@@ -38,7 +33,7 @@ export default function App() {
       <header className="hero">
         <div className="brand-block">
           <p className="brand">ÓRBITA</p>
-          <p className="tagline">Seis agentes. Un itinerario. Una constelación.</p>
+          <p className="tagline">Grafo multiagente · tráfico en tiempo real</p>
         </div>
 
         <div className="hero-actions">

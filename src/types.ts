@@ -16,18 +16,9 @@ export type Agent = {
   role: string
   short: string
   size: number
-  palette: PlanetPalette
+  color: string
   desktop: Point
   mobile: Point
-}
-
-export type PlanetPalette = {
-  core: string
-  mid: string
-  rim: string
-  glow: string
-  atmosphere: string
-  band: string
 }
 
 export type Projectile = {
