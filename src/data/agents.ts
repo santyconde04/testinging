@@ -1,4 +1,4 @@
-import type { Agent, AgentId, Point } from './types'
+import type { Agent, AgentId, Point } from '../types'
 
 const planner: Agent = {
   id: 'planner',
@@ -104,8 +104,8 @@ const budget: Agent = {
     atmosphere: 'rgba(245, 185, 66, 0.2)',
     band: 'rgba(70, 42, 8, 0.35)',
   },
-  desktop: { x: 50, y: 82 },
-  mobile: { x: 50, y: 88 },
+  desktop: { x: 50, y: 78 },
+  mobile: { x: 50, y: 84 },
 }
 
 export const AGENTS: Agent[] = [

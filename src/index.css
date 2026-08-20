@@ -531,6 +531,20 @@ button {
   }
 }
 
+@media (max-height: 740px) {
+  .hero {
+    padding-top: 16px;
+  }
+
+  .brand {
+    font-size: clamp(40px, 7vw, 72px);
+  }
+
+  .tagline {
+    margin-top: 8px;
+  }
+}
+
 @media (max-width: 760px) {
   body {
     overflow: auto;
